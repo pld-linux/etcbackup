@@ -18,6 +18,8 @@ Incremental backups of /etc. Use at your own risk.
 %description -l pl
 Przyrostowe kopie zapasowe /etc. U¿ywaj na w³asn± odpowiedzialno¶æ.
 
+%prep
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_sysconfdir}/cron.hourly}
