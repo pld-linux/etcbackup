@@ -1,0 +1,74 @@
+#!/bin/sh
+# /etc backup	 <wolf@pld.org.pl>
+umask 077
+
+month="`date +%Y-%m-00`"	# 00, ¿eby siê ³adnie sortowa³o
+fulldate="`date +%Y-%m-%d-%H:%M`"
+tmp="etc-$$-$RANDOM"
+tmp2="diff-$$-$RANDOM"
+
+# sprawdziæ, czy jest katalog, jak nie ma to zrobiæ
+if [ ! -d /var/log/etc ]
+then
+	if [ -f /var/log/etc ]
+	then
+		echo "Wywal /var/log/etc, to pogadamy."
+		exit 0
+	fi
+	mkdir /var/log/etc
+fi
+
+# sprawdziæ, czy jest pe³ny backup z aktualnego miesi±ca
+if [ ! -f /var/log/etc/etc-$month.tar.gz ]
+then
+	cd /etc
+	tar zcf /var/log/etc/etc-$month.tar.gz .
+	cd /var/log/etc
+#	echo "Zrobi³em pe³ny backup /etc:"
+#	ls -l etc-$month.tar.gz
+	s1=1
+fi
+
+# pu¶ciæ diffa
+if [ -f /var/log/etc/.current ]
+then
+	# jak nie jest rozpakowany w /, to niektóre linki siadaj±
+	cd /
+	mkdir $tmp
+	cd $tmp
+	tar zxf /var/log/etc/.current
+	cd /
+	diff -ruN $tmp /etc --exclude="counter" --exclude="adjtime" --exclude="rc.d" --exclude="mtab" > /tmp/$tmp2
+	cd /tmp
+	# jak s± ró¿nice, to wys³aæ gdzie trzeba
+	if [ -s $tmp2 ]
+	then
+		mail -s "/etc diff @ $fulldate" root < $tmp2
+	fi
+	rm $tmp2
+	# i teraz ju¿ bez excludowania
+	cd /
+	diff -ruN $tmp /etc --exclude="mtab" > /tmp/$tmp2
+	cd /tmp
+	if [ -s $tmp2 ]
+	then
+		mv $tmp2 /var/log/etc/etc-$fulldate
+		gzip -f /var/log/etc/etc-$fulldate
+		# uaktualnienie zrzutu /etc
+		cd /etc
+		tar zcf /var/log/etc/.current .
+		s2=1
+	else
+		rm $tmp2
+	fi
+	cd /
+	rm -rf $tmp
+fi
+ 
+# .current ju¿ jest aktualne, jak $s2==1
+if [ "$s1" -eq 1 -a "$s2" -ne 1 ]
+then
+	cd /var/log/etc
+	cp -f etc-$month.tar.gz .current
+fi
+
