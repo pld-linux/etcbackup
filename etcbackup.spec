@@ -5,7 +5,7 @@ Version:	0.1
 Release:	1
 License:	GPL
 Group:		Base/Utilities
-Source0:	http://team.pld.org.pl/~wolf/%{name}
+Source0:	http://chimera.one.pl/~wolf/%{name}
 # Source0-md5:	4ef3ea93e66f192c483a4e10e25ec697
 Requires:	diffutils
 Requires:	gzip
