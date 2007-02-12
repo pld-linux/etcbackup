@@ -1,5 +1,5 @@
 Summary:	Incremental backups of /etc
-Summary(pl):	Przyrostowe kopie zapasowe /etc
+Summary(pl.UTF-8):   Przyrostowe kopie zapasowe /etc
 Name:		etcbackup
 Version:	0.1
 Release:	1
@@ -16,8 +16,8 @@ BuildArch:	noarch
 %description
 Incremental backups of /etc. Use at your own risk.
 
-%description -l pl
-Przyrostowe kopie zapasowe /etc. U¿ywaj na w³asn± odpowiedzialno¶æ.
+%description -l pl.UTF-8
+Przyrostowe kopie zapasowe /etc. UÅ¼ywaj na wÅ‚asnÄ… odpowiedzialnoÅ›Ä‡.
 
 %prep
 
