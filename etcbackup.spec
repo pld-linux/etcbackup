@@ -1,5 +1,5 @@
 Summary:	Incremental backups of /etc
-Summary(pl.UTF-8):   Przyrostowe kopie zapasowe /etc
+Summary(pl.UTF-8):	Przyrostowe kopie zapasowe /etc
 Name:		etcbackup
 Version:	0.1
 Release:	1
